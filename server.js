@@ -9,7 +9,7 @@ const port=8000;
 const app= express();
 
 //added by stack
-
+// token > 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
 
 app.use(bodyParser.json());
 
@@ -60,7 +60,35 @@ app.route('/users/:id')
 })
 // UPDATE
 .put((req,res)=>{
-  // User.findByIdAndUpdate()
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      name:req.body.newData.name,
+      email:req.body.newData.email,
+      password:req.body.newData.password
+    },
+    {
+      new:true
+    },
+    (err,data)=>{
+      if (err){
+        res.json({
+          success: false,
+          message: err
+        })
+      } else if (!data){
+        res.json({
+          success: false,
+          message: "Not Found"
+        })
+      } else {
+        res.json({
+          success: true,
+          data: data
+        })
+      }
+    }
+  )
 })
 // DELETE
 .delete((req,res)=>{
