@@ -40,23 +40,32 @@ function sendResponse(res,err,data){
 // CREATE
 app.post('/users',(req,res)=>{
   User.create(
-    {...req.body.newData},
+    {
+      name:req.body.newData.name,
+      email:req.body.newData.email,
+      password:req.body.newData.password
+    },
     (err,data)=>{sendResponse(res,err,data)}
 )
 })
-//READ
+
 app.route('/users/:id')
+// READ
 .get((req,res)=>{
-  User.findById(
-	  req.params.id,
-	  (err,data)=>{sendResponse(res,err,data)})
+  User.findById(req.params.id,(err,data)=>{sendResponse(res,err,data)})
 })
 // UPDATE
 .put((req,res)=>{
   User.findByIdAndUpdate(
     req.params.id,
-    {...req.body.newData},
-    {new:true},
+    {
+      name:req.body.newData.name,
+      email:req.body.newData.email,
+      password:req.body.newData.password
+    },
+    {
+      new:true
+    },
     (err,data)=>{sendResponse(res,err,data)})
 })
 // DELETE
